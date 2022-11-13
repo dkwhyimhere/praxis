@@ -1,26 +1,45 @@
-clc; clear all;
+clc
+clear all
+close all
 
-or=[ 0 0 ] ; % origin
-r=5; %radius
+fig1=figure;
+%lengths
+l1 = 2 ; l2 = 1 ;
+%speeds
+w1 = 1 ; w2 = 2.25 ;
+%origin
+p1 = 0 + 0*i % complex plane
 
-figure ;
+for angle = 0 : 360*4
+    counter = angle+1;
+    angle = deg2rad(angle) ; % degree to rad
 
-for angle = 1 : 360*5
+    p2 = rotline(p1,l1,w1,angle) ;
+    hold on ;
+    p3 = rotline(p2,l2,w2,angle) ; 
+    
+    tr(counter) = p3 ;
+    plot(real(tr),imag(tr),"w-")
+    xlim([-5 5]);
+    ylim([-5 5]);
+    daspect([1 1 1]);
+    hold off;
 
-px=[or(1) r*sind(angle)];
-py=[or(2) r*cosd(angle)];
+    set(gca,'color','k');
+    drawnow ; 
 
-plot(px,py,"-","color",'k','LineWidth',3);
+end
 
-xlim([-10 10]);
-ylim([-10 10]);
-axis square;
+function p2 = rotline(p1,r,w,t)
 
-drawnow;
+p2 = p1+r*exp(i*w*t);
 
+x=real([p1 p2]);
+y=imag([p1 p2]);
 
-
-
-
+plot(x,y,'-','color','w','LineWidth',2);
+hold on;
+plot(x,y,'.','color','w','MarkerSize',20);
+plot(x,y,'.','color','k','MarkerSize',15);
 
 end
